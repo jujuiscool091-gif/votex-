@@ -78,4 +78,4 @@ def run_api():
 
 if __name__ == '__main__':
     threading.Thread(target=run_api).start()
-    bot.run("YOUR_DISCORD_TOKEN")
+    bot.run("MTQ5NzQ0MDMwNDE5Njg4MjQ3Mg.GY-MYF.7WBjrhj0f0tu2_QDo9IC83-m7kC_GjVbu9H0U0")
